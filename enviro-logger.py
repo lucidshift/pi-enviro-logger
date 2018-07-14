@@ -2,6 +2,7 @@
 
 import sys
 import time
+import os
 
 from envirophat import light, weather, motion, analog
 
@@ -14,12 +15,20 @@ def write(line):
 write("--- Enviro pHAT Monitoring ---")
 
 def writeToDisk(line):
-    date = time.strftime("%d_%m_%Y")
-    filePath = "/home/pi/enviro_data/" + date + ".csv"
+    date = time.strftime("%m_%d_%Y")
+    filePath = "/home/pi/enviro_data/"
 
-    file = open(filePath, 'a')
-    file.write(line)
+    if not os.path.exists(filePath):
+        os.makedirs("/home/pi/enviro_data")
 
+    filePath = filePath + date + ".csv"
+    if not os.path.exists(filePath):
+         file = open(filePath, 'w+')
+         #file.write() #TODO: Add heading format line to file.
+         file.write(line)
+    else:
+         file = open(filePath, 'a')
+         file.write(line)
 
 try:
     while True:
@@ -68,7 +77,7 @@ Analog: 0: {a0}, 1: {a1}, 2: {a2}, 3: {a3}
 
 
         csvLine = """{time},{t:.2f},{p:.2f},{a:.2f},{c},{r},{g},{b},{h},{mx},{my},{mz},{ax},{ay},{az},{a0},{a1},{a2},{a3}
-        """.format(
+""".format(
         unit = unit,
         time = time.strftime("%H:%M:%S"),
         a = weather.altitude(), # Supply your local qnh for more accurate readings
