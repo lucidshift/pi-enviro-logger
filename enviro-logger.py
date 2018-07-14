@@ -13,6 +13,14 @@ def write(line):
 
 write("--- Enviro pHAT Monitoring ---")
 
+def writeToDisk(line):
+    date = time.strftime("%d_%m_%Y")
+    filePath = "/home/pi/enviro_data/" + date + ".csv"
+
+    file = open(filePath, 'a')
+    file.write(line)
+
+
 try:
     while True:
         rgb = light.rgb()
@@ -56,6 +64,30 @@ Analog: 0: {a0}, 1: {a1}, 2: {a2}, 3: {a3}
         write(output)
         lines = len(output.split("\n"))
         write("\033[{}A".format(lines - 1))
+
+
+        csvLine =  time.strftime("%H:%M:%S") + ',' +
+        str(weather.altitude()) + ',' +
+        str(weather.temperature()) + ',' +
+        str(weather.pressure(unit=unit)) + ',' +
+        str(light.light()) + ',' +
+        str(rgb[0]) + ',' +
+        str(rgb[1]) + ',' +
+        str(rgb[2]) + ',' +
+        str(motion.heading()) + ',' +
+        str(analog_values[0]) + ',' +
+        str(analog_values[1]) + ',' +
+        str(analog_values[2]) + ',' +
+        str(analog_values[3]) + ',' +
+        str(mag_values[0]) + ',' +
+        str(mag_values[1]) + ',' +
+        str(mag_values[2]) + ',' +
+        str(acc_values[0]) + ',' +
+        str(acc_values[1]) + ',' +
+        str(acc_values[2]) + '\n'
+
+        writeToDisk(csvLine)
+
 
         time.sleep(1)
         
