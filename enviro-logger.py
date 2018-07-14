@@ -28,6 +28,7 @@ def writeToDisk(line, headerFormat):
          file = open(filePath, 'a')
          file.write(line)
 
+    file.close()
 
 write("--- Enviro pHAT Monitoring ---")
 
