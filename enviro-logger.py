@@ -12,9 +12,7 @@ def write(line):
     sys.stdout.write(line)
     sys.stdout.flush()
 
-write("--- Enviro pHAT Monitoring ---")
-
-def writeToDisk(line):
+def writeToDisk(line, headerFormat):
     date = time.strftime("%m_%d_%Y")
     filePath = "/home/pi/enviro_data/"
 
@@ -24,11 +22,14 @@ def writeToDisk(line):
     filePath = filePath + date + ".csv"
     if not os.path.exists(filePath):
          file = open(filePath, 'w+')
-         #file.write() #TODO: Add heading format line to file.
+         file.write(headerFormat) 
          file.write(line)
     else:
          file = open(filePath, 'a')
          file.write(line)
+
+
+write("--- Enviro pHAT Monitoring ---")
 
 try:
     while True:
@@ -75,7 +76,6 @@ Analog: 0: {a0}, 1: {a1}, 2: {a2}, 3: {a3}
         lines = len(output.split("\n"))
         write("\033[{}A".format(lines - 1))
 
-
         csvLine = """{time},{t:.2f},{p:.2f},{a:.2f},{c},{r},{g},{b},{h},{mx},{my},{mz},{ax},{ay},{az},{a0},{a1},{a2},{a3}
 """.format(
         unit = unit,
@@ -100,8 +100,8 @@ Analog: 0: {a0}, 1: {a1}, 2: {a2}, 3: {a3}
         az = acc_values[2]
     )
 
-        writeToDisk(csvLine)
-
+        headerFormat = "Time,Pressure({unit}),Temp(C),Altitude(m),Light,Red,Green,Blue,Heading,MagX,MagY,MagZ,AccelX,AccelY,AccelZ,Analog0,Analog1,Analog2,Analog3,"
+        writeToDisk(csvLine, headerFormat)
 
         time.sleep(1)
         
