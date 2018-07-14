@@ -41,6 +41,7 @@ Analog: 0: {a0}, 1: {a1}, 2: {a2}, 3: {a3}
 
 """.format(
         unit = unit,
+        time = time.strftime("%H:%M:%S"),
         a = weather.altitude(), # Supply your local qnh for more accurate readings
         t = weather.temperature(),
         p = weather.pressure(unit=unit),
@@ -66,25 +67,29 @@ Analog: 0: {a0}, 1: {a1}, 2: {a2}, 3: {a3}
         write("\033[{}A".format(lines - 1))
 
 
-        csvLine =  time.strftime("%H:%M:%S") + ',' +
-        str(weather.altitude()) + ',' +
-        str(weather.temperature()) + ',' +
-        str(weather.pressure(unit=unit)) + ',' +
-        str(light.light()) + ',' +
-        str(rgb[0]) + ',' +
-        str(rgb[1]) + ',' +
-        str(rgb[2]) + ',' +
-        str(motion.heading()) + ',' +
-        str(analog_values[0]) + ',' +
-        str(analog_values[1]) + ',' +
-        str(analog_values[2]) + ',' +
-        str(analog_values[3]) + ',' +
-        str(mag_values[0]) + ',' +
-        str(mag_values[1]) + ',' +
-        str(mag_values[2]) + ',' +
-        str(acc_values[0]) + ',' +
-        str(acc_values[1]) + ',' +
-        str(acc_values[2]) + '\n'
+        csvLine = """{time},{t:.2f},{p:.2f},{a:.2f},{c},{r},{g},{b},{h},{mx},{my},{mz},{ax},{ay},{az},{a0},{a1},{a2},{a3}
+        """.format(
+        unit = unit,
+        time = time.strftime("%H:%M:%S"),
+        a = weather.altitude(), # Supply your local qnh for more accurate readings
+        t = weather.temperature(),
+        p = weather.pressure(unit=unit),
+        c = light.light(),
+        r = rgb[0],
+        g = rgb[1],
+        b = rgb[2],
+        h = motion.heading(),
+        a0 = analog_values[0],
+        a1 = analog_values[1],
+        a2 = analog_values[2],
+        a3 = analog_values[3],
+        mx = mag_values[0],
+        my = mag_values[1],
+        mz = mag_values[2],
+        ax = acc_values[0],
+        ay = acc_values[1],
+        az = acc_values[2]
+    )
 
         writeToDisk(csvLine)
 
