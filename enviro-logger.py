@@ -13,7 +13,7 @@ def write(line):
     sys.stdout.flush()
 
 def writeToDisk(line, headerFormat):
-    date = time.strftime("%m_%d_%Y")
+    date = time.strftime("%m_%d_%Y").lstrip("0")
     filePath = "/home/pi/enviro_data/"
 
     if not os.path.exists(filePath):
