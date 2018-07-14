@@ -103,7 +103,7 @@ Analog: 0: {a0}, 1: {a1}, 2: {a2}, 3: {a3}
         headerFormat = "Time,Pressure({unit}),Temp(C),Altitude(m),Light,Red,Green,Blue,Heading,MagX,MagY,MagZ,AccelX,AccelY,AccelZ,Analog0,Analog1,Analog2,Analog3,"
         writeToDisk(csvLine, headerFormat)
 
-        time.sleep(1)
-        
+        time.sleep(30)
+
 except KeyboardInterrupt:
     pass
