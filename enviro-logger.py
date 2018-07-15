@@ -101,7 +101,7 @@ Analog: 0: {a0}, 1: {a1}, 2: {a2}, 3: {a3}
         az = acc_values[2]
     )
 
-        headerFormat = "Time,Pressure({unit}),Temp(C),Altitude(m),Light,Red,Green,Blue,Heading,MagX,MagY,MagZ,AccelX,AccelY,AccelZ,Analog0,Analog1,Analog2,Analog3,"
+        headerFormat = "Time,Temp(C),Pressure(hPa),Altitude(m),Light,Red,Green,Blue,Heading,MagX,MagY,MagZ,AccelX,AccelY,AccelZ,Analog0,Analog1,Analog2,Analog3,"
         writeToDisk(csvLine, headerFormat)
 
         time.sleep(30)
